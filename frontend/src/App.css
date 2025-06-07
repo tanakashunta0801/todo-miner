@@ -4,6 +4,13 @@
   text-align: left;
 }
 
+/* Pixel art styling */
+.pixel-art {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
+}
+
 /* Smooth animations */
 * {
   transition: all 0.2s ease-in-out;
