@@ -408,6 +408,13 @@ function App() {
           onClose={() => setCurrentAchievement(null)}
         />
 
+        {/* Mining Animation Overlay (for coin display) */}
+        <MiningAnimation 
+          isActive={miningAnimation.active}
+          coins={miningAnimation.coins}
+          onAnimationComplete={() => setMiningAnimation({ active: false, coins: 0 })}
+        />
+
         {/* Notification */}
         {notification && (
           <div className="fixed top-4 right-4 bg-green-600 text-white px-4 py-2 rounded-lg shadow-lg z-50 animate-pulse">
