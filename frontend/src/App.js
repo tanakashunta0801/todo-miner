@@ -318,7 +318,7 @@ function App() {
             <h2 className="text-lg font-semibold mb-3">⛏️ 鉱山ゲーム</h2>
             
             {/* Mining Display */}
-            <div className="bg-gradient-to-b from-orange-900 to-yellow-900 rounded-lg p-4 mb-4 text-center">
+            <div className="bg-gradient-to-b from-orange-900 to-yellow-900 rounded-lg p-4 mb-4 text-center relative">
               <div className="text-6xl mb-2">⛏️</div>
               <div className="text-sm text-yellow-200">
                 採掘力: {gameStats.mining_power}x
@@ -328,6 +328,13 @@ function App() {
                   🤖 自動採掘: {gameStats.auto_miners} 台稼働中
                 </div>
               )}
+              
+              {/* Mining Animation Overlay */}
+              <MiningAnimation 
+                isActive={miningAnimation.active}
+                coins={miningAnimation.coins}
+                onAnimationComplete={() => setMiningAnimation({ active: false, coins: 0 })}
+              />
             </div>
 
             {/* Upgrades */}
