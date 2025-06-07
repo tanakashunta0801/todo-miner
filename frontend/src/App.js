@@ -33,6 +33,9 @@ function App() {
   const [showGame, setShowGame] = useState(true);
   const [showAddForm, setShowAddForm] = useState(false);
   const [notification, setNotification] = useState('');
+  const [miningAnimation, setMiningAnimation] = useState({ active: false, coins: 0 });
+  const [currentAchievement, setCurrentAchievement] = useState(null);
+  const [unlockedAchievements, setUnlockedAchievements] = useState([]);
 
   // Fetch data
   const fetchTodos = async () => {
