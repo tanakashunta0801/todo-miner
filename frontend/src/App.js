@@ -132,8 +132,9 @@ function App() {
       const baseReward = priorityRewards[todo.priority];
       const actualReward = baseReward * (gameStats ? gameStats.mining_power : 1);
       
-      // Trigger mining animation
+      // Trigger both mining animations
       setMiningAnimation({ active: true, coins: actualReward });
+      setPixelMiningActive(true);
       
       fetchTodos();
       fetchGameStats();
