@@ -35,6 +35,7 @@ function App() {
   const [showAddForm, setShowAddForm] = useState(false);
   const [notification, setNotification] = useState('');
   const [miningAnimation, setMiningAnimation] = useState({ active: false, coins: 0 });
+  const [pixelMiningActive, setPixelMiningActive] = useState(false);
   const [currentAchievement, setCurrentAchievement] = useState(null);
   const [unlockedAchievements, setUnlockedAchievements] = useState([]);
 
