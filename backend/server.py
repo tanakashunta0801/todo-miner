@@ -232,8 +232,17 @@ async def get_available_upgrades():
     
     upgrades = []
     for upgrade_config in AVAILABLE_UPGRADES:
-        current_level = getattr(stats, upgrade_config["effect"].replace("_", "_"), 0) if hasattr(stats, upgrade_config["effect"].replace("_", "_")) else 0
-        cost = upgrade_config["base_cost"] * (2 ** current_level)  # Exponential cost scaling
+        # Calculate current level based on effect type
+        current_level = 0
+        if upgrade_config["effect"] == "mining_power":
+            current_level = max(0, stats.mining_power - 1)  # Base mining power is 1
+        elif upgrade_config["effect"] == "auto_mining":
+            current_level = stats.auto_miners
+        elif upgrade_config["effect"] == "efficiency":
+            current_level = 0  # For now, efficiency is not tracked separately
+        
+        # Calculate cost with exponential scaling
+        cost = upgrade_config["base_cost"] * (2 ** current_level)
         
         upgrade = Upgrade(
             id=upgrade_config["id"],
