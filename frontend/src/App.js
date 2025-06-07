@@ -320,24 +320,31 @@ function App() {
           <div className="bg-gray-800 rounded-lg p-4 border border-gray-700">
             <h2 className="text-lg font-semibold mb-3">⛏️ 鉱山ゲーム</h2>
             
-            {/* Mining Display */}
-            <div className="bg-gradient-to-b from-orange-900 to-yellow-900 rounded-lg p-4 mb-4 text-center relative">
-              <div className="text-6xl mb-2">⛏️</div>
-              <div className="text-sm text-yellow-200">
-                採掘力: {gameStats.mining_power}x
-              </div>
-              {gameStats.auto_miners > 0 && (
-                <div className="text-xs text-green-300 mt-1">
-                  🤖 自動採掘: {gameStats.auto_miners} 台稼働中
-                </div>
-              )}
-              
-              {/* Mining Animation Overlay */}
-              <MiningAnimation 
-                isActive={miningAnimation.active}
-                coins={miningAnimation.coins}
-                onAnimationComplete={() => setMiningAnimation({ active: false, coins: 0 })}
+            {/* Pixel Mining Game Display */}
+            <div className="mb-4">
+              <PixelMiningGame 
+                gameStats={gameStats}
+                isActive={pixelMiningActive}
+                onMiningComplete={() => setPixelMiningActive(false)}
               />
+            </div>
+            
+            {/* Mining Stats */}
+            <div className="bg-gradient-to-r from-orange-900 to-yellow-900 rounded-lg p-3 mb-4 text-center">
+              <div className="grid grid-cols-3 gap-2 text-sm">
+                <div>
+                  <div className="text-yellow-200">採掘力</div>
+                  <div className="font-bold">{gameStats.mining_power}x</div>
+                </div>
+                <div>
+                  <div className="text-yellow-200">自動採掘機</div>
+                  <div className="font-bold">{gameStats.auto_miners} 台</div>
+                </div>
+                <div>
+                  <div className="text-yellow-200">稼働状況</div>
+                  <div className="font-bold">{gameStats.auto_miners > 0 ? '🟢 稼働中' : '🔴 停止'}</div>
+                </div>
+              </div>
             </div>
 
             {/* Upgrades */}
