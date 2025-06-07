@@ -130,6 +130,9 @@ function App() {
       const baseReward = priorityRewards[todo.priority];
       const actualReward = baseReward * (gameStats ? gameStats.mining_power : 1);
       
+      // Trigger mining animation
+      setMiningAnimation({ active: true, coins: actualReward });
+      
       fetchTodos();
       fetchGameStats();
       showNotification(`⛏️ +${actualReward} コイン獲得！`);
