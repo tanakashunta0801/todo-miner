@@ -268,36 +268,60 @@ async def purchase_upgrade(upgrade_id: str):
     # Get current stats
     stats = await get_game_stats()
     
-    # Calculate current level and cost
+    # Calculate current level based on effect type
     current_level = 0
     if upgrade_config["effect"] == "mining_power":
-        current_level = stats.mining_power - 1  # Base is 1
+        current_level = max(0, stats.mining_power - 1)  # Base mining power is 1
     elif upgrade_config["effect"] == "auto_mining":
         current_level = stats.auto_miners
+    elif upgrade_config["effect"] == "efficiency":
+        current_level = 0  # For now, efficiency is not tracked separately
     
+    # Check if already at max level
     if current_level >= upgrade_config["max_level"]:
         raise HTTPException(status_code=400, detail="Upgrade already at max level")
     
+    # Calculate cost
     cost = upgrade_config["base_cost"] * (2 ** current_level)
     
+    # Check if user has enough coins
     if stats.coins < cost:
         raise HTTPException(status_code=400, detail="Not enough coins")
     
-    # Apply upgrade
-    update_dict = {"coins": stats.coins - cost}
+    # Prepare update dictionary
+    update_dict = {
+        "coins": stats.coins - cost,
+        "last_activity": datetime.now(timezone.utc)
+    }
     
+    # Apply upgrade effect
     if upgrade_config["effect"] == "mining_power":
         update_dict["mining_power"] = stats.mining_power + 1
     elif upgrade_config["effect"] == "auto_mining":
         update_dict["auto_miners"] = stats.auto_miners + 1
         update_dict["auto_mining_rate"] = (stats.auto_miners + 1) * 1.0  # 1 coin per minute per auto miner
+    elif upgrade_config["effect"] == "efficiency":
+        # For efficiency upgrade, we could increase auto_mining_rate multiplier
+        # For now, just increase auto_mining_rate by 50%
+        current_rate = stats.auto_mining_rate
+        update_dict["auto_mining_rate"] = current_rate * 1.5
     
-    await db.game_stats.update_one(
+    # Update the database
+    result = await db.game_stats.update_one(
         {"user_id": "default_user"}, 
-        {"$set": update_dict}
+        {"$set": update_dict},
+        upsert=True
     )
     
-    return {"message": f"Upgrade {upgrade_config['name']} purchased successfully"}
+    # Verify the update was successful
+    if result.modified_count == 0 and result.upserted_id is None:
+        raise HTTPException(status_code=500, detail="Failed to update game stats")
+    
+    return {
+        "message": f"Upgrade {upgrade_config['name']} purchased successfully",
+        "cost": cost,
+        "new_level": current_level + 1
+    }
 
 # Helper function to award completion rewards
 async def award_completion_rewards(priority: Priority):
