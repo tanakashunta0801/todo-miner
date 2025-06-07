@@ -5,7 +5,7 @@ import time
 from datetime import datetime
 
 # Backend URL from frontend .env
-BACKEND_URL = "https://612c1284-e644-40dd-9c93-90936abc785f.preview.emergentagent.com"
+BACKEND_URL = "https://adf27abe-6591-47e1-8618-ff5679cba7c2.preview.emergentagent.com"
 API_URL = f"{BACKEND_URL}/api"
 
 class TodoMiningGameAPITester(unittest.TestCase):
