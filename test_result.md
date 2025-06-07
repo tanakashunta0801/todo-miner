@@ -107,51 +107,63 @@ user_problem_statement: "Test the Todo Mining Game API to ensure all endpoints a
 backend:
   - task: "Game Stats Management"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Implemented GET /api/game/stats and POST /api/game/stats endpoints"
+      - working: true
+        agent: "testing"
+        comment: "GET /api/game/stats successfully retrieves game stats with all required fields. POST /api/game/stats correctly updates game stats. Default stats are created if none exist."
 
   - task: "Todo Operations"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Implemented todo CRUD operations with game reward integration"
+      - working: true
+        agent: "testing"
+        comment: "Todo CRUD operations working correctly. Create, read, update, and delete all function as expected. Todo completion correctly triggers game rewards (coins, experience, streaks). Double completion edge case handled properly - no extra rewards given."
 
   - task: "Upgrade System"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Implemented GET /api/game/upgrades and POST /api/game/upgrade/{upgrade_id} endpoints"
+      - working: true
+        agent: "testing"
+        comment: "GET /api/game/upgrades returns all available upgrades with correct information. POST /api/game/upgrade/{upgrade_id} successfully purchases upgrades and applies their effects. Proper error handling for insufficient coins and max level upgrades."
 
   - task: "Auto-mining"
     implemented: true
-    working: "NA"
+    working: true
     file: "/app/backend/server.py"
     stuck_count: 0
     priority: "high"
-    needs_retesting: true
+    needs_retesting: false
     status_history:
       - working: "NA"
         agent: "main"
         comment: "Implemented POST /api/game/auto-mine endpoint"
+      - working: true
+        agent: "testing"
+        comment: "POST /api/game/auto-mine endpoint works correctly. Auto-mining generates coins based on auto-miner count. Returns appropriate response when no auto-miners are available."
 
 frontend:
   - task: "Frontend Implementation"
