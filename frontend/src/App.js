@@ -65,7 +65,18 @@ function App() {
     }
   };
 
-  // Auto-mining effect
+  // Check for achievements when stats change
+  useEffect(() => {
+    if (gameStats) {
+      const newAchievements = checkAchievements(gameStats, unlockedAchievements);
+      if (newAchievements.length > 0) {
+        const achievement = newAchievements[0];
+        setCurrentAchievement(achievement);
+        setUnlockedAchievements(prev => [...prev, achievement.id]);
+        setTimeout(() => setCurrentAchievement(null), 5000);
+      }
+    }
+  }, [gameStats, unlockedAchievements]);
   useEffect(() => {
     const autoMiningInterval = setInterval(async () => {
       if (gameStats && gameStats.auto_miners > 0) {
